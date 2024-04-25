@@ -2,12 +2,33 @@ import './style.sass';
 
 import * as THREE from 'three';
 import TWEEN from '@tweenjs/tween.js';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+gsap.registerPlugin(ScrollTrigger);
+
 import { LayerModel } from './rubiks-cube/layer-model';
 import { debounce, randomNotation, sleep, toRotation } from './rubiks-cube/utils';
 import { RubikCubeModel } from './rubiks-cube/rubik-cube-model';
 import { Axis } from './rubiks-cube/types';
 
 initializeThree();
+
+declareGSAPAnimations();
+
+function declareGSAPAnimations() {
+  const recentWorkItems = gsap.utils.toArray('.work-container > div')
+
+  gsap.to(recentWorkItems, {
+    xPercent: -100 * (recentWorkItems.length - 2),
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '.work-container',
+      pin: true,
+      scrub: 0.1,
+      end: () => "+=" + (document.querySelector('.work-container') as HTMLDivElement).offsetWidth,
+    }
+  })
+}
 
 function initializeThree() {
   const layerGroup = new LayerModel();
