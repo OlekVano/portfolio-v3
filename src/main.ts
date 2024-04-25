@@ -13,21 +13,39 @@ import { Axis } from './rubiks-cube/types';
 
 initializeThree();
 
-declareGSAPAnimations();
+manageGSAPAnimations();
 
-function declareGSAPAnimations() {
-  const recentWorkItems = gsap.utils.toArray('.work-container > div')
+function manageGSAPAnimations() {
+  let animations: gsap.core.Tween[] = []
 
-  gsap.to(recentWorkItems, {
-    xPercent: -100 * (recentWorkItems.length - 2),
+  updateGSAPAnimations(animations)
+
+  window.addEventListener('resize', debounce(() => updateGSAPAnimations(animations)));
+}
+
+function updateGSAPAnimations(animations: gsap.core.Tween[]) {
+  for (let animation of animations) {
+    console.log(animation.revert())
+  }
+
+  // empties the array
+  animations.splice(0, animations.length)
+
+  const workWrapper = document.querySelector('.work > div > div') as HTMLDivElement
+  const workContainer = workWrapper.querySelector('.work-container') as HTMLDivElement
+
+  const recentWorkAnimation = gsap.to(workContainer, {
+    x: -(workContainer.clientWidth - workWrapper.clientWidth),
     ease: 'none',
     scrollTrigger: {
       trigger: '.work-container',
       pin: true,
       scrub: 0.1,
-      end: () => "+=" + (document.querySelector('.work-container') as HTMLDivElement).offsetWidth,
+      end: () => "+=" + workContainer.clientWidth * 1.5,
     }
   })
+
+  animations.push(recentWorkAnimation)
 }
 
 function initializeThree() {
@@ -39,8 +57,8 @@ function initializeThree() {
 
   const canvasContainer = document.getElementById('canvas-container') as HTMLCanvasElement;
 
-  const canvasWidth = canvasContainer.clientWidth;
-  const canvasHeight = canvasContainer.clientHeight;
+  const canvasWidth = canvasContainer.offsetWidth;
+  const canvasHeight = canvasWidth;
 
   const [renderer, camera, rubikCube, cubeletModels, scene] = initializeScene(canvasContainer, layerGroup, canvasWidth, canvasHeight);
 
@@ -48,12 +66,12 @@ function initializeThree() {
 
   manageRubikCubeAnimation(rubikCube, layerGroup, cubeletModels)
 
-  window.addEventListener('resize', debounce(() => onResize(canvasContainer, camera, renderer)));
+  window.addEventListener('resize', debounce(() => updateThreeCanvas(canvasContainer, camera, renderer)));
 }
 
-function onResize(canvasContainer: HTMLCanvasElement, camera: THREE.PerspectiveCamera, renderer: THREE.Renderer) {
+function updateThreeCanvas(canvasContainer: HTMLCanvasElement, camera: THREE.PerspectiveCamera, renderer: THREE.Renderer) {
   const canvasWidth = canvasContainer.offsetWidth
-  const canvasHeight = canvasContainer.offsetHeight
+  const canvasHeight = canvasWidth
   camera.aspect = canvasWidth / canvasHeight;
   renderer.setSize(canvasWidth, canvasHeight);
 }
