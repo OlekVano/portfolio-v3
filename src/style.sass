@@ -48,3 +48,28 @@ section
   padding: 0
   filter: grayscale(100%)
   aspect-ratio: 1
+
+.enemies-container
+  > div:first-child
+    > h2, > p
+      font-size: $font-size-lg
+
+
+  > div:last-child
+    margin-top: 128px
+    font-size: $font-size-md
+    display: grid
+    grid-template-columns: repeat(2, 1fr)
+    grid-template-rows: repeat(2, auto)
+
+    > div
+      padding-top: 16px
+
+    > div:last-child
+      padding-top: 64px
+      grid-column: 2
+
+    > div:last-child, div:nth-child(2)
+      border-left: 1px solid $color-secondary
+      padding-left: 32px
+      margin-left: 32px
