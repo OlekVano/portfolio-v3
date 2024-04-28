@@ -5,6 +5,7 @@ import TWEEN from '@tweenjs/tween.js';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
+import SplitType from 'split-type'
 
 import { LayerModel } from './rubiks-cube/layer-model';
 import { debounce, randomNotation, sleep, toRotation } from './rubiks-cube/utils';
@@ -18,11 +19,48 @@ initializeThree();
 manageGSAPAnimations();
 
 function manageGSAPAnimations() {
+  setOnetimeGSAPAnimations()
+
   let animations: gsap.core.Tween[] = []
 
   updateGSAPAnimations(animations)
 
   window.addEventListener('resize', debounce(() => updateGSAPAnimations(animations)));
+}
+
+function setOnetimeGSAPAnimations() {
+  const heroTitle = new SplitType('.hero > div > h1', {
+    types: 'words'
+  })
+
+  gsap.fromTo(
+    heroTitle.words,
+    { 
+      y: '100%',
+      opacity: 0
+    },
+    {
+      y: 0,
+      opacity: 1,
+      stagger: 0.05,
+      duration: 1,
+      ease: 'power4.out',
+    }
+  )
+
+  gsap.fromTo(
+    '#canvas-container',
+    {
+      y: '50%',
+      opacity: 0
+    },
+    {
+      opacity: 1,
+      y: 0,
+      duration: 2,
+      ease: 'power4.out'
+    }
+  )
 }
 
 function updateGSAPAnimations(animations: gsap.core.Tween[]) {
