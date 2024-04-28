@@ -11,6 +11,7 @@ $font-size-md: clamp(18px, calc(4/3 * $base-vw), 24px)
 $font-size-lg: clamp(24px, calc(2 * $base-vw), 36px)
 $font-size-xl: clamp(32px, calc(2 * 4/3 * $base-vw), 48px)
 
+$spacing-2xs: 4px
 $spacing-xs: 8px
 $spacing-sm: 16px
 $spacing-md: 32px
@@ -244,3 +245,32 @@ section
               &:first-child
                 color: $color-primary
                 margin-bottom: $spacing-xs
+
+.contact
+  > div
+    > div:first-child
+      font-size: $font-size-lg
+    
+    > form
+      margin-top: $spacing-lg
+
+      > div
+        margin-top: $spacing-md
+        display: flex
+        flex-direction: column
+
+        > input:not([type="submit"]), > textarea, > select
+          border: none
+          outline: none
+          border-bottom: 1px solid $color-tertiary
+          padding: 0
+          padding-bottom: $spacing-2xs
+          margin: 0
+          color: $color-primary
+
+          &::placeholder
+            color: $color-primary
+
+        > textarea
+          max-width: 100%
+          min-width: 100%
