@@ -6,6 +6,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 import SplitType from 'split-type'
+import Lenis from 'lenis'
 
 import { LayerModel } from './rubiks-cube/layer-model';
 import { debounce, randomNotation, sleep, toRotation } from './rubiks-cube/utils';
@@ -14,9 +15,23 @@ import { Axis } from './rubiks-cube/types';
 
 const MIN_CANVAS_HEIGHT = 768
 
+initializeSmoothScroll();
+
 initializeThree();
 
 manageGSAPAnimations();
+
+function initializeSmoothScroll() {
+  const lenis = new Lenis()
+
+  lenis.on('scroll', ScrollTrigger.update)
+
+  gsap.ticker.add((time) => {
+    lenis.raf(time * 1000)
+  })
+
+  gsap.ticker.lagSmoothing(0)
+}
 
 function manageGSAPAnimations() {
   setOnetimeGSAPAnimations()

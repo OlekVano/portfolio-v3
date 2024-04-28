@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "gsap": "^3.12.5",
+    "lenis": "^1.0.45",
     "split-type": "^0.3.4",
     "three": "^0.163.0"
   }
