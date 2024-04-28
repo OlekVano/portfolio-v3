@@ -100,7 +100,7 @@ function updateGSAPAnimations(animations: gsap.core.Tween[]) {
     startAt: { marginLeft: 0 },
     ease: 'none',
     scrollTrigger: {
-      trigger: '.header',
+      trigger: 'header',
       start: 'top top',
       endTrigger: '.hero > div > h1',
       end: 'top top',
@@ -113,7 +113,7 @@ function updateGSAPAnimations(animations: gsap.core.Tween[]) {
     startAt: { marginRight: 0 },
     ease: 'none',
     scrollTrigger: {
-      trigger: '.header',
+      trigger: 'header',
       start: 'top top',
       endTrigger: '.hero > div > h1',
       end: 'top top',
