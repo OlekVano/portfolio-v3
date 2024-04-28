@@ -3,10 +3,19 @@
 $color-primary: #141414
 $color-secondary: #A1A1A1
 
-$font-size-sm: 18px
-$font-size-md: 24px
-$font-size-lg: 36px
-$font-size-xl: 48px
+$base-vw: 2vw
+
+$font-size-sm: clamp(14px, $base-vw, 18px)
+$font-size-md: clamp(18px, calc(4/3 * $base-vw), 24px)
+$font-size-lg: clamp(24px, calc(2 * $base-vw), 36px)
+$font-size-xl: clamp(32px, calc(2 * 4/3 * $base-vw), 48px)
+
+$spacing-xs: 8px
+$spacing-sm: 16px
+$spacing-md: 32px
+$spacing-lg: 64px
+$spacing-xl: 96px
+$spacing-2xl: 128px
 
 body
   overflow-x: hidden
@@ -24,7 +33,7 @@ h1, h2, h3, h4, h5, h6
 
 header
   display: flex
-  padding: 16px 32px
+  padding: $spacing-sm $spacing-md
   align-items: center
   justify-content: space-between
 
@@ -36,9 +45,9 @@ header
 .btn-primary
   background-color: $color-primary
   color: white
-  padding: 8px 16px
+  padding: $spacing-xs $spacing-sm
   border: none
-  border-radius: 8px
+  border-radius: $spacing-xs
   font-size: $font-size-sm
   text-transform: uppercase
   font-family: "Roboto Mono", monospace
@@ -55,57 +64,62 @@ section
     width: 100%
     max-width: 1024px
     margin: 0 auto
-    padding: 128px 32px
+    padding: $spacing-2xl $spacing-md
 
 .hero
   min-height: 50vh
   display: grid
   place-items: center
 
-  h1
-    text-align: center
-    font-size: $font-size-xl
+  > div
+    padding-bottom: 0
 
-    span:last-child
-      color: $color-secondary
+    > h1
+      text-align: center
+      font-size: $font-size-xl
 
-    span
-      display: block
+      > span:last-child
+        color: $color-secondary
+
+      > span
+        display: block
 
 #canvas-container
   padding: 0
   filter: grayscale(100%)
   aspect-ratio: 1
 
-.enemies-container
+.values-container
   > div:first-child
     > h2, > p
       font-size: $font-size-lg
 
 
   > div:last-child
-    margin-top: 128px
+    margin-top: $spacing-lg
     font-size: $font-size-md
     display: grid
     grid-template-columns: repeat(2, 1fr)
     grid-template-rows: repeat(2, auto)
 
     > div
-      padding-top: 16px
+      padding-top: $spacing-sm
+
+    > div:first-child
+      padding-right: $spacing-md
 
     > div:last-child
-      padding-top: 64px
+      padding-top: $spacing-lg
       grid-column: 2
 
     > div:last-child, div:nth-child(2)
       border-left: 1px solid $color-secondary
-      padding-left: 32px
-      margin-left: 32px
+      padding-left: $spacing-md
 
 .work-container
   display: grid
   grid-template-columns: repeat(7, 1fr)
-  width: calc((min(100% - 32px, 512px)) * 7)
+  width: calc((min(100% - $spacing-md, 512px)) * 7)
 
   height: 1024px
   max-height: 100dvh
@@ -124,7 +138,7 @@ section
         padding-left: 0
 
     > div
-      padding: 16px 32px
+      padding: $spacing-sm $spacing-md
 
     > img
       object-fit: cover
@@ -143,4 +157,4 @@ section
         text-transform: uppercase
         font-family: "Roboto Mono", monospace
         display: flex
-        gap: 32px
+        gap: $spacing-md
