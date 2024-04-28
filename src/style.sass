@@ -106,27 +106,38 @@ section
     > h2, > p
       font-size: $font-size-lg
 
-
   > div:last-child
-    margin-top: $spacing-lg
+    margin-top: calc($spacing-lg - $spacing-sm)
     font-size: $font-size-md
-    display: grid
-    grid-template-columns: repeat(2, 1fr)
-    grid-template-rows: repeat(2, auto)
 
     > div
-      padding-top: $spacing-sm
-
-    > div:first-child
-      padding-right: $spacing-md
-
-    > div:last-child
-      padding-top: $spacing-lg
-      grid-column: 2
-
-    > div:last-child, > div:nth-child(2)
+      padding-top: $spacing-md
       border-left: 1px solid $color-secondary
-      padding-left: $spacing-md
+      padding-left: $spacing-sm
+
+      &:first-child
+        padding-top: $spacing-sm
+
+      &:last-child
+        padding-bottom: $spacing-sm
+
+    @media screen and (min-width: 640px)
+      display: grid
+      grid-template-columns: repeat(2, 1fr)
+      grid-template-rows: repeat(2, auto)
+
+      > div
+        padding-left: $spacing-md
+
+        &:first-child
+          padding-left: 0
+          border-left: none
+
+        &:nth-child(2)
+          padding-top: $spacing-sm
+
+        &:last-child
+          grid-column: 2
 
 .work-container
   display: grid
