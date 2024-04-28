@@ -57,6 +57,10 @@ function manageGSAPAnimations() {
 }
 
 function setOnetimeGSAPAnimations() {
+  gsap.set(':is(.scroll-animated-text, .scroll-animated-text-horizontal) > .word', {
+    opacity: 0.1
+  })
+
   gsap.fromTo('.hero > div > h1 .word',
     { 
       opacity: 0.1
