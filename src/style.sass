@@ -69,7 +69,6 @@ section
     padding: $spacing-2xl $spacing-md
 
 .hero
-  min-height: 50vh
   display: grid
   place-items: center
 
@@ -77,6 +76,7 @@ section
     padding-bottom: 0
 
     > h1
+      z-index: 9999
       text-align: center
       font-size: $font-size-xl
 
@@ -89,7 +89,10 @@ section
 #canvas-container
   padding: 0
   filter: grayscale(100%)
-  aspect-ratio: 1
+
+.values
+  > div
+    padding-top: 0
 
 .values-container
   > div:first-child

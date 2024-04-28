@@ -11,6 +11,8 @@ import { debounce, randomNotation, sleep, toRotation } from './rubiks-cube/utils
 import { RubikCubeModel } from './rubiks-cube/rubik-cube-model';
 import { Axis } from './rubiks-cube/types';
 
+const MIN_CANVAS_HEIGHT = 768
+
 initializeThree();
 
 manageGSAPAnimations();
@@ -54,10 +56,22 @@ function updateGSAPAnimations(animations: gsap.core.Tween[]) {
       start: 'top top',
       endTrigger: '.hero > div > h1',
       end: 'top top',
-      scrub: 0.1,
+      scrub: 1,
     }
   })
 
+  const heroParallaxAnimation = gsap.to('#canvas-container', {
+    y: '-25%',
+    startAt: { y: 0 },
+    ease: 'none',
+    scrollTrigger: {
+      trigger: 'body',
+      start: 'top top',
+      endTrigger: '.values',
+      end: 'top top',
+      scrub: 1,
+    }
+  })
 
   const workWrapper = document.querySelector('.work > div > div') as HTMLDivElement
   const workContainer = workWrapper.querySelector('.work-container') as HTMLDivElement
@@ -69,13 +83,14 @@ function updateGSAPAnimations(animations: gsap.core.Tween[]) {
       trigger: '.work-container',
       pin: true,
       scrub: 0.1,
-      end: () => "+=" + workContainer.clientWidth * 1.5,
+      end: '+=' + workContainer.clientWidth * 1.5,
     }
   })
 
   animations.push(
     headerAnimationLogo,
     headerAnimationBtns,
+    heroParallaxAnimation,
     recentWorkAnimation
   )
 }
@@ -87,10 +102,9 @@ function initializeThree() {
     this.update();
   };
 
-  const canvasContainer = document.getElementById('canvas-container') as HTMLCanvasElement;
+  const canvasContainer = document.getElementById('canvas-container') as HTMLDivElement;
 
-  const canvasWidth = canvasContainer.offsetWidth;
-  const canvasHeight = canvasWidth;
+  const [canvasWidth, canvasHeight] = getCanvasDimensions(canvasContainer)
 
   const [renderer, camera, rubikCube, cubeletModels, scene] = initializeScene(canvasContainer, layerGroup, canvasWidth, canvasHeight);
 
@@ -101,16 +115,15 @@ function initializeThree() {
   window.addEventListener('resize', debounce(() => updateThreeCanvas(canvasContainer, camera, renderer)));
 }
 
-function updateThreeCanvas(canvasContainer: HTMLCanvasElement, camera: THREE.PerspectiveCamera, renderer: THREE.Renderer) {
-  const canvasWidth = canvasContainer.offsetWidth
-  const canvasHeight = canvasWidth
+function updateThreeCanvas(canvasContainer: HTMLDivElement, camera: THREE.PerspectiveCamera, renderer: THREE.Renderer) {
+  const [canvasWidth, canvasHeight] = getCanvasDimensions(canvasContainer)
   camera.aspect = canvasWidth / canvasHeight;
   renderer.setSize(canvasWidth, canvasHeight);
+  camera.updateProjectionMatrix();
 }
 
-function initializeScene(canvasContainer: HTMLCanvasElement, layerGroup: LayerModel, canvasWidth: number, canvasHeight: number):  [THREE.WebGLRenderer, THREE.PerspectiveCamera, RubikCubeModel, THREE.Object3D[], THREE.Scene] {
+function initializeScene(canvasContainer: HTMLDivElement, layerGroup: LayerModel, canvasWidth: number, canvasHeight: number):  [THREE.WebGLRenderer, THREE.PerspectiveCamera, RubikCubeModel, THREE.Object3D[], THREE.Scene] {
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color('#FFF');
   
   const directionalLight = new THREE.DirectionalLight('#FFF', 0.05);
   directionalLight.position.set(10, 10, 10);
@@ -127,9 +140,11 @@ function initializeScene(canvasContainer: HTMLCanvasElement, layerGroup: LayerMo
   camera.updateProjectionMatrix();
 
   let renderer = new THREE.WebGLRenderer({
-    antialias: true
+    antialias: true,
+    alpha: true
   });
 
+  renderer.setClearColor(0x000000, 0);
   renderer.setSize(canvasWidth, canvasHeight);
 
   canvasContainer.appendChild(renderer.domElement);
@@ -148,6 +163,13 @@ function initializeScene(canvasContainer: HTMLCanvasElement, layerGroup: LayerMo
   scene.add(layerGroup);
 
   return [renderer, camera, rubikCube, cubeletModels, scene]
+}
+
+function getCanvasDimensions(canvasContainer: HTMLDivElement) {
+  const canvasWidth = canvasContainer.offsetWidth
+  const canvasHeight = Math.max(canvasWidth, MIN_CANVAS_HEIGHT)
+
+  return [canvasWidth, canvasHeight]
 }
 
 function animate(renderer: THREE.Renderer, scene: THREE.Scene, camera: THREE.PerspectiveCamera, time?: number) {
