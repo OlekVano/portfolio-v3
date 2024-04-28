@@ -90,8 +90,11 @@ function setOnetimeGSAPAnimations() {
   const scrollAnimatedTextElems = gsap.utils.toArray('.scroll-animated-text') as HTMLElement[]
   for (let elem of scrollAnimatedTextElems) {
     const words = elem.querySelectorAll('.word')
-    gsap.to(
+    gsap.fromTo(
       words,
+      {
+        opacity: 0.1
+      },
       {
         opacity: 1,
         stagger: 0.05,
@@ -99,7 +102,9 @@ function setOnetimeGSAPAnimations() {
         ease: 'power4.out',
         scrollTrigger: {
           trigger: elem,
-          start: 'top 80%'
+          start: 'top 70%',
+          end: '+=200',
+          scrub: 1
         }
       }
     )
@@ -193,16 +198,22 @@ function updateGSAPAnimations(animations: gsap.core.Tween[]) {
   const scrollAnimatedTextElems = gsap.utils.toArray('.scroll-animated-text-horizontal') as HTMLElement[]
   for (let elem of scrollAnimatedTextElems) {
     const words = elem.querySelectorAll('.word')
-    const animation = gsap.to(
+    const animation = gsap.fromTo(
       words,
       {
+        opacity: 0.1
+      },
+      {
+        startAt: { opacity: 0.1 },
         opacity: 1,
         stagger: 0.05,
         duration: 1,
         ease: 'power4.out',
         scrollTrigger: {
           trigger: elem,
-          start: 'left 80%',
+          start: 'left 70%',
+          end: '+=200',
+          scrub: 1,
           containerAnimation: recentWorkAnimation,
         }
       }
