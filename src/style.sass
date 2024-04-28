@@ -64,6 +64,11 @@ header
     background-color: transparent
     color: $color-primary
 
+.scroll-animated-text
+  > .word
+    opacity: 0
+    transform: translateY(100%)
+
 section
   > div
     width: 100%
@@ -82,7 +87,6 @@ section
       z-index: 9999
       text-align: center
       font-size: $font-size-xl
-      clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%)
 
       > span:last-child
         color: $color-secondary
@@ -121,7 +125,7 @@ section
       padding-top: $spacing-lg
       grid-column: 2
 
-    > div:last-child, div:nth-child(2)
+    > div:last-child, > div:nth-child(2)
       border-left: 1px solid $color-secondary
       padding-left: $spacing-md
 
