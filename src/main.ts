@@ -16,10 +16,23 @@ import { Axis } from './rubiks-cube/types';
 const MIN_CANVAS_HEIGHT = 768
 
 initializeSmoothScroll();
-
 initializeThree();
-
+prepareAnimatedText();
 manageGSAPAnimations();
+
+function prepareAnimatedText() {
+  SplitType.create('.hero > div > h1', {
+    types: 'words'
+  })
+
+  const textElems = document.querySelectorAll('.scroll-animated-text') as NodeListOf<HTMLDivElement>
+  for (let elem of textElems) {
+    SplitType.create(elem, {
+      types: 'words'
+    })
+  }
+
+}
 
 function initializeSmoothScroll() {
   const lenis = new Lenis()
@@ -44,12 +57,7 @@ function manageGSAPAnimations() {
 }
 
 function setOnetimeGSAPAnimations() {
-  const heroTitle = new SplitType('.hero > div > h1', {
-    types: 'words'
-  })
-
-  gsap.fromTo(
-    heroTitle.words,
+  gsap.fromTo('.hero > div > h1 .word',
     { 
       y: '100%',
       opacity: 0
