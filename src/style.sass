@@ -80,7 +80,6 @@ section
     padding-bottom: 0
 
     > h1
-      z-index: 9999
       text-align: center
       font-size: $font-size-xl
 
@@ -109,7 +108,7 @@ section
 
     > div
       padding-top: $spacing-md
-      border-left: 1px solid $color-secondary
+      border-left: 1px solid $color-tertiary
       padding-left: $spacing-sm
 
       &:first-child
@@ -128,6 +127,7 @@ section
 
         &:first-child
           padding-left: 0
+          padding-right: $spacing-sm
           border-left: none
 
         &:nth-child(2)
@@ -181,10 +181,11 @@ section
     overflow-x: hidden
 
     &:first-child
-      border-right: 1px solid $color-secondary
+      border-right: 1px solid $color-tertiary
 
       > div
         padding-left: 0
+        font-size: $font-size-lg
 
     > div
       padding: $spacing-sm $spacing-md

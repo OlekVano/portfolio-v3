@@ -160,29 +160,6 @@ function updateGSAPAnimations(animations: (gsap.core.Tween | gsap.core.Timeline)
     animations.push(animation)
   }
 
-  const scrollAnimatedHorizontallyTextElems = gsap.utils.toArray('.scroll-animated-text') as HTMLElement[]
-  for (let elem of scrollAnimatedHorizontallyTextElems) {
-    const words = elem.querySelectorAll('.word')
-    gsap.fromTo(
-      words,
-      {
-        opacity: 0.1
-      },
-      {
-        opacity: 1,
-        stagger: 0.05,
-        duration: 1,
-        ease: 'power4.out',
-        scrollTrigger: {
-          trigger: elem,
-          start: 'top 70%',
-          end: '+=200',
-          scrub: 1
-        }
-      }
-    )
-  }
-
   const workWrapper = document.querySelector('.work > div > div') as HTMLDivElement
   const workContainer = workWrapper.querySelector('.work-container') as HTMLDivElement
   const recentWorkAnimation = gsap.to(workContainer, {
@@ -196,8 +173,8 @@ function updateGSAPAnimations(animations: (gsap.core.Tween | gsap.core.Timeline)
     }
   })
 
-  const scrollAnimatedTextElems = gsap.utils.toArray('.scroll-animated-text-horizontal') as HTMLElement[]
-  for (let elem of scrollAnimatedTextElems) {
+  const scrollAnimatedHorizontallyTextElems = gsap.utils.toArray('.scroll-animated-text-horizontal') as HTMLElement[]
+  for (let elem of scrollAnimatedHorizontallyTextElems) {
     const words = elem.querySelectorAll('.word')
     const animation = gsap.fromTo(
       words,
@@ -215,6 +192,30 @@ function updateGSAPAnimations(animations: (gsap.core.Tween | gsap.core.Timeline)
           end: '+=200',
           scrub: 1,
           containerAnimation: recentWorkAnimation,
+        }
+      }
+    )
+    animations.push(animation)
+  }
+
+  const scrollAnimatedTextElems = gsap.utils.toArray('.scroll-animated-text') as HTMLElement[]
+  for (let elem of scrollAnimatedTextElems) {
+    const words = elem.querySelectorAll('.word')
+    const animation = gsap.fromTo(
+      words,
+      {
+        opacity: 0.1
+      },
+      {
+        opacity: 1,
+        stagger: 0.05,
+        duration: 1,
+        ease: 'power4.out',
+        scrollTrigger: {
+          trigger: elem,
+          start: 'top 70%',
+          end: '+=200',
+          scrub: 1
         }
       }
     )
