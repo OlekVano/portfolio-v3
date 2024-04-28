@@ -59,11 +59,9 @@ function manageGSAPAnimations() {
 function setOnetimeGSAPAnimations() {
   gsap.fromTo('.hero > div > h1 .word',
     { 
-      y: '100%',
-      opacity: 0
+      opacity: 0.1
     },
     {
-      y: 0,
       opacity: 1,
       stagger: 0.05,
       duration: 1,
@@ -91,7 +89,6 @@ function setOnetimeGSAPAnimations() {
     gsap.to(
       words,
       {
-        y: 0,
         opacity: 1,
         stagger: 0.05,
         duration: 1,
@@ -172,7 +169,6 @@ function updateGSAPAnimations(animations: gsap.core.Tween[]) {
     const animation = gsap.to(
       words,
       {
-        y: 0,
         opacity: 1,
         stagger: 0.05,
         duration: 1,
@@ -181,7 +177,6 @@ function updateGSAPAnimations(animations: gsap.core.Tween[]) {
           trigger: elem,
           start: 'left 80%',
           containerAnimation: recentWorkAnimation,
-          markers: true
         }
       }
     )
