@@ -31,6 +31,34 @@ function updateGSAPAnimations(animations: gsap.core.Tween[]) {
   // empties the array
   animations.splice(0, animations.length)
 
+  const logo = document.querySelector('.logo') as HTMLParagraphElement
+  const headerAnimationLogo = gsap.to(logo, {
+    marginLeft: -200,
+    startAt: { marginLeft: 0 },
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '.header',
+      start: 'top top',
+      endTrigger: '.hero > div > h1',
+      end: 'top top',
+      scrub: 1,
+    }
+  })
+
+  const headerAnimationBtns = gsap.to('header > div', {
+    marginRight: -200,
+    startAt: { marginRight: 0 },
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '.header',
+      start: 'top top',
+      endTrigger: '.hero > div > h1',
+      end: 'top top',
+      scrub: 0.1,
+    }
+  })
+
+
   const workWrapper = document.querySelector('.work > div > div') as HTMLDivElement
   const workContainer = workWrapper.querySelector('.work-container') as HTMLDivElement
 
@@ -45,7 +73,11 @@ function updateGSAPAnimations(animations: gsap.core.Tween[]) {
     }
   })
 
-  animations.push(recentWorkAnimation)
+  animations.push(
+    headerAnimationLogo,
+    headerAnimationBtns,
+    recentWorkAnimation
+  )
 }
 
 function initializeThree() {
