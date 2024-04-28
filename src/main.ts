@@ -154,6 +154,29 @@ function updateGSAPAnimations(animations: gsap.core.Tween[]) {
     }
   })
 
+  const bigBrandsAnimation = gsap.timeline({
+    scrollTrigger: {
+      trigger: '.big-brands',
+      start: 'top top',
+      end: '+=1500',
+      pin: true,
+      scrub: 1
+    }
+  })
+  const bigBrandCards = gsap.utils.toArray('.big-brands > div > div > div > div') as HTMLElement[]
+  for (let card of bigBrandCards) {
+    bigBrandsAnimation.fromTo(card, {
+      yPercent: 100,
+      opacity: 0
+    },
+    {
+      yPercent: 0,
+      opacity: 1,
+      stagger: 1,
+      ease: 'none',
+    })
+  }
+
   const workWrapper = document.querySelector('.work > div > div') as HTMLDivElement
   const workContainer = workWrapper.querySelector('.work-container') as HTMLDivElement
   const recentWorkAnimation = gsap.to(workContainer, {
