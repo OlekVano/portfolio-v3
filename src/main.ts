@@ -86,32 +86,9 @@ function setOnetimeGSAPAnimations() {
       ease: 'power4.out'
     }
   )
-
-  const scrollAnimatedTextElems = gsap.utils.toArray('.scroll-animated-text') as HTMLElement[]
-  for (let elem of scrollAnimatedTextElems) {
-    const words = elem.querySelectorAll('.word')
-    gsap.fromTo(
-      words,
-      {
-        opacity: 0.1
-      },
-      {
-        opacity: 1,
-        stagger: 0.05,
-        duration: 1,
-        ease: 'power4.out',
-        scrollTrigger: {
-          trigger: elem,
-          start: 'top 70%',
-          end: '+=200',
-          scrub: 1
-        }
-      }
-    )
-  }
 }
 
-function updateGSAPAnimations(animations: gsap.core.Tween[]) {
+function updateGSAPAnimations(animations: (gsap.core.Tween | gsap.core.Timeline)[]) {
   for (let animation of animations) {
     console.log(animation.revert())
   }
@@ -170,7 +147,7 @@ function updateGSAPAnimations(animations: gsap.core.Tween[]) {
   })
   const bigBrandCards = gsap.utils.toArray('.big-brands > div > div > div > div') as HTMLElement[]
   for (let card of bigBrandCards) {
-    bigBrandsAnimation.fromTo(card, {
+    const animation = bigBrandsAnimation.fromTo(card, {
       yPercent: 100,
       opacity: 0
     },
@@ -180,6 +157,30 @@ function updateGSAPAnimations(animations: gsap.core.Tween[]) {
       stagger: 1,
       ease: 'none',
     })
+    animations.push(animation)
+  }
+
+  const scrollAnimatedHorizontallyTextElems = gsap.utils.toArray('.scroll-animated-text') as HTMLElement[]
+  for (let elem of scrollAnimatedHorizontallyTextElems) {
+    const words = elem.querySelectorAll('.word')
+    gsap.fromTo(
+      words,
+      {
+        opacity: 0.1
+      },
+      {
+        opacity: 1,
+        stagger: 0.05,
+        duration: 1,
+        ease: 'power4.out',
+        scrollTrigger: {
+          trigger: elem,
+          start: 'top 70%',
+          end: '+=200',
+          scrub: 1
+        }
+      }
+    )
   }
 
   const workWrapper = document.querySelector('.work > div > div') as HTMLDivElement
@@ -204,7 +205,6 @@ function updateGSAPAnimations(animations: gsap.core.Tween[]) {
         opacity: 0.1
       },
       {
-        startAt: { opacity: 0.1 },
         opacity: 1,
         stagger: 0.05,
         duration: 1,
