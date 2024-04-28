@@ -25,7 +25,7 @@ function prepareAnimatedText() {
     types: 'words'
   })
 
-  const textElems = document.querySelectorAll('.scroll-animated-text') as NodeListOf<HTMLDivElement>
+  const textElems = document.querySelectorAll('.scroll-animated-text, .scroll-animated-text-horizontal') as NodeListOf<HTMLDivElement>
   for (let elem of textElems) {
     SplitType.create(elem, {
       types: 'words'
@@ -165,6 +165,28 @@ function updateGSAPAnimations(animations: gsap.core.Tween[]) {
       end: '+=' + workContainer.clientWidth * 1.5,
     }
   })
+
+  const scrollAnimatedTextElems = gsap.utils.toArray('.scroll-animated-text-horizontal') as HTMLElement[]
+  for (let elem of scrollAnimatedTextElems) {
+    const words = elem.querySelectorAll('.word')
+    const animation = gsap.to(
+      words,
+      {
+        y: 0,
+        opacity: 1,
+        stagger: 0.05,
+        duration: 1,
+        ease: 'power4.out',
+        scrollTrigger: {
+          trigger: elem,
+          start: 'left 80%',
+          containerAnimation: recentWorkAnimation,
+          markers: true
+        }
+      }
+    )
+    animations.push(animation)
+  }
 
   animations.push(
     headerAnimationLogo,
