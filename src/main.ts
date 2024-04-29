@@ -12,6 +12,7 @@ import { LayerModel } from './rubiks-cube/layer-model';
 import { debounce, randomNotation, sleep, toRotation } from './rubiks-cube/utils';
 import { RubikCubeModel } from './rubiks-cube/rubik-cube-model';
 import { Axis } from './rubiks-cube/types';
+import { FormValidator } from './form-validator';
 
 const MIN_CANVAS_HEIGHT = 768
 
@@ -30,6 +31,38 @@ function initializeOnetimeLogic() {
     })
   }
 
+  const paymentTypeSelection = document.getElementById('payment-type') as HTMLSelectElement
+
+  paymentTypeSelection.onchange = function () {
+    const paymentType = (this as HTMLSelectElement).value
+    const budgetElem = document.getElementById('budget') as HTMLSelectElement
+
+    const fixedBudgets = document.getElementsByClassName('payment-type-option-fixed')
+    const hourlyBudgets = document.getElementsByClassName('payment-type-option-hourly')
+
+    if (paymentType === 'fixed') {
+      for (let budget of fixedBudgets) {
+        budget.classList.remove('payment-type-hidden')
+      }
+      for (let budget of hourlyBudgets) {
+        budget.classList.add('payment-type-hidden')
+      }
+      budgetElem.value = fixedBudgets[0].getAttribute('value') as string
+    } else {
+      for (let budget of fixedBudgets) {
+        budget.classList.add('payment-type-hidden')
+      }
+      for (let budget of hourlyBudgets) {
+        budget.classList.remove('payment-type-hidden')
+      }
+      budgetElem.value = hourlyBudgets[0].getAttribute('value') as string
+    }
+  }
+
+  const form = document.getElementById('contact-form') as HTMLFormElement
+  const fields = ['name', 'email', 'payment-type', 'budget', 'message']
+  const validator = new FormValidator(form, fields)
+  validator.initialize()
 }
 
 function prepareAnimatedText() {
@@ -102,7 +135,7 @@ function setOnetimeGSAPAnimations() {
 
 function updateGSAPAnimations(animations: (gsap.core.Tween | gsap.core.Timeline)[]) {
   for (let animation of animations) {
-    console.log(animation.revert())
+    animation.revert()
   }
 
   // empties the array

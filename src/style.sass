@@ -3,6 +3,7 @@
 $color-primary: #141414
 $color-secondary: #A1A1A1
 $color-tertiary: #f5f3f4
+$color-error: #f08080
 
 $base-vw: 2vw
 
@@ -237,14 +238,14 @@ section
         > div
           margin-top: $spacing-sm
 
-            > p
-              text-transform: uppercase
-              font-family: "Roboto Mono", monospace
-              font-size: $font-size-sm
+          > p
+            text-transform: uppercase
+            font-family: "Roboto Mono", monospace
+            font-size: $font-size-sm
 
-              &:first-child
-                color: $color-primary
-                margin-bottom: $spacing-xs
+            &:first-child
+              color: $color-primary
+              margin-bottom: $spacing-xs
 
             &:last-child
               margin-top: $spacing-xs
@@ -262,7 +263,7 @@ section
         display: flex
         flex-direction: column
 
-        > input:not([type="submit"]), > textarea, > select
+        > input:not([type="button"]), > textarea, > select
           border: none
           outline: none
           border-bottom: 1px solid $color-tertiary
@@ -277,6 +278,15 @@ section
         > textarea
           max-width: 100%
           min-width: 100%
+
+        > .error-message:not(:empty)
+          margin-top: $spacing-xs
+          color: $color-error
+          font-size: $font-size-sm
+
+.payment-type-hidden
+  display: none
+  visibility: hidden
 
 footer
   padding: $spacing-md
