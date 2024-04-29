@@ -15,10 +15,22 @@ import { Axis } from './rubiks-cube/types';
 
 const MIN_CANVAS_HEIGHT = 768
 
+initializeOnetimeLogic()
 initializeSmoothScroll();
 initializeThree();
 prepareAnimatedText();
 manageGSAPAnimations();
+
+function initializeOnetimeLogic() {
+  const ctas = document.querySelectorAll('.cta') as NodeListOf<HTMLButtonElement>
+  for (let cta of ctas) {
+    cta.addEventListener('click', () => {
+      const contactForm = document.getElementById('contact') as HTMLElement
+      contactForm.scrollIntoView({ behavior: 'smooth' })
+    })
+  }
+
+}
 
 function prepareAnimatedText() {
   SplitType.create('.hero > div > h1', {
