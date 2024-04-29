@@ -73,6 +73,9 @@ section
     margin: 0 auto
     padding: $spacing-2xl $spacing-md
 
+    @media screen and (max-width: 640px)
+      padding: $spacing-2xl $spacing-sm
+
 .hero
   display: grid
   place-items: center
@@ -181,6 +184,10 @@ section
     justify-content: space-between
     overflow-x: hidden
 
+    &:nth-child(even), &:first-child
+      border-bottom: 1px solid $color-tertiary
+      border-top: 1px solid $color-tertiary
+
     &:first-child
       border-right: 1px solid $color-tertiary
 
@@ -190,6 +197,8 @@ section
 
     > div
       padding: $spacing-sm $spacing-md
+      @media screen and (max-width: 640px)
+        padding: $spacing-sm
 
     > img
       object-fit: cover
@@ -278,3 +287,6 @@ section
 footer
   padding: $spacing-md
   margin-top: $spacing-lg
+
+  @media screen and (max-width: 640px)
+    padding: $spacing-sm
