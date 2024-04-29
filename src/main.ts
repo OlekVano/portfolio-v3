@@ -42,18 +42,18 @@ function initializeOnetimeLogic() {
 
     if (paymentType === 'fixed') {
       for (let budget of fixedBudgets) {
-        budget.classList.remove('payment-type-hidden')
+        budget.classList.remove('visually-hidden')
       }
       for (let budget of hourlyBudgets) {
-        budget.classList.add('payment-type-hidden')
+        budget.classList.add('visually-hidden')
       }
       budgetElem.value = fixedBudgets[0].getAttribute('value') as string
     } else {
       for (let budget of fixedBudgets) {
-        budget.classList.add('payment-type-hidden')
+        budget.classList.add('visually-hidden')
       }
       for (let budget of hourlyBudgets) {
-        budget.classList.remove('payment-type-hidden')
+        budget.classList.remove('visually-hidden')
       }
       budgetElem.value = hourlyBudgets[0].getAttribute('value') as string
     }
