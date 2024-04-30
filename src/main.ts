@@ -70,7 +70,7 @@ function prepareAnimatedText() {
     types: 'words'
   })
 
-  const textElems = document.querySelectorAll('.scroll-animated-text, .scroll-animated-text-horizontal') as NodeListOf<HTMLDivElement>
+  const textElems = document.querySelectorAll('.scroll-animated-text') as NodeListOf<HTMLDivElement>
   for (let elem of textElems) {
     SplitType.create(elem, {
       types: 'words'
@@ -93,16 +93,14 @@ function initializeSmoothScroll() {
 
 function manageGSAPAnimations() {
   setOnetimeGSAPAnimations()
-
-  let animations: gsap.core.Tween[] = []
-
-  updateGSAPAnimations(animations)
-
-  window.addEventListener('resize', debounce(() => updateGSAPAnimations(animations)));
 }
 
 function setOnetimeGSAPAnimations() {
-  gsap.set(':is(.scroll-animated-text, .scroll-animated-text-horizontal) > .word', {
+  gsap.set('.scroll-animated-text > .word', {
+    opacity: 0.1
+  })
+
+  gsap.set('.scroll-animated-img', {
     opacity: 0.1
   })
 
@@ -131,18 +129,8 @@ function setOnetimeGSAPAnimations() {
       ease: 'power4.out'
     }
   )
-}
 
-function updateGSAPAnimations(animations: (gsap.core.Tween | gsap.core.Timeline)[]) {
-  for (let animation of animations) {
-    animation.revert()
-  }
-
-  // empties the array
-  animations.splice(0, animations.length)
-
-  const logo = document.querySelector('.logo') as HTMLParagraphElement
-  const headerAnimationLogo = gsap.to(logo, {
+  gsap.to('.logo', {
     marginLeft: -200,
     startAt: { marginLeft: 0 },
     ease: 'none',
@@ -155,7 +143,7 @@ function updateGSAPAnimations(animations: (gsap.core.Tween | gsap.core.Timeline)
     }
   })
 
-  const headerAnimationBtns = gsap.to('header > div', {
+  gsap.to('header > div', {
     marginRight: -200,
     startAt: { marginRight: 0 },
     ease: 'none',
@@ -168,7 +156,7 @@ function updateGSAPAnimations(animations: (gsap.core.Tween | gsap.core.Timeline)
     }
   })
 
-  const heroParallaxAnimation = gsap.to('#canvas-container', {
+  gsap.to('#canvas-container', {
     y: '-25%',
     startAt: { y: 0 },
     ease: 'none',
@@ -192,7 +180,7 @@ function updateGSAPAnimations(animations: (gsap.core.Tween | gsap.core.Timeline)
   })
   const bigBrandCards = gsap.utils.toArray('.big-brands > div > div > div > div') as HTMLElement[]
   for (let card of bigBrandCards) {
-    const animation = bigBrandsAnimation.fromTo(card, {
+    bigBrandsAnimation.fromTo(card, {
       yPercent: 100,
       opacity: 0
     },
@@ -202,51 +190,12 @@ function updateGSAPAnimations(animations: (gsap.core.Tween | gsap.core.Timeline)
       stagger: 1,
       ease: 'none',
     })
-    animations.push(animation)
-  }
-
-  const workWrapper = document.querySelector('.work > div > div') as HTMLDivElement
-  const workContainer = workWrapper.querySelector('.work-container') as HTMLDivElement
-  const recentWorkAnimation = gsap.to(workContainer, {
-    x: -(workContainer.clientWidth - workWrapper.clientWidth),
-    ease: 'none',
-    scrollTrigger: {
-      trigger: '.work-container',
-      pin: true,
-      scrub: 0.1,
-      end: '+=' + workContainer.clientWidth * 1.5,
-    }
-  })
-
-  const scrollAnimatedHorizontallyTextElems = gsap.utils.toArray('.scroll-animated-text-horizontal') as HTMLElement[]
-  for (let elem of scrollAnimatedHorizontallyTextElems) {
-    const words = elem.querySelectorAll('.word')
-    const animation = gsap.fromTo(
-      words,
-      {
-        opacity: 0.1
-      },
-      {
-        opacity: 1,
-        stagger: 0.05,
-        duration: 1,
-        ease: 'power4.out',
-        scrollTrigger: {
-          trigger: elem,
-          start: 'left 70%',
-          end: '+=200',
-          scrub: 1,
-          containerAnimation: recentWorkAnimation,
-        }
-      }
-    )
-    animations.push(animation)
   }
 
   const scrollAnimatedTextElems = gsap.utils.toArray('.scroll-animated-text') as HTMLElement[]
   for (let elem of scrollAnimatedTextElems) {
     const words = elem.querySelectorAll('.word')
-    const animation = gsap.fromTo(
+    gsap.fromTo(
       words,
       {
         opacity: 0.1
@@ -264,15 +213,28 @@ function updateGSAPAnimations(animations: (gsap.core.Tween | gsap.core.Timeline)
         }
       }
     )
-    animations.push(animation)
   }
 
-  animations.push(
-    headerAnimationLogo,
-    headerAnimationBtns,
-    heroParallaxAnimation,
-    recentWorkAnimation
-  )
+  const animatedImgElems = gsap.utils.toArray('.scroll-animated-img') as HTMLElement[]
+  for (let elem of animatedImgElems) {
+    gsap.fromTo(
+      elem,
+      {
+        opacity: 0.1,
+      },
+      {
+        opacity: 1,
+        duration: 1,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: elem,
+          start: 'top 70%',
+          end: 'bottom 70%',
+          scrub: 1
+        }
+      }
+    )
+  }
 }
 
 function initializeThree() {
