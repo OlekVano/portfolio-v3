@@ -178,7 +178,7 @@ function setOnetimeGSAPAnimations() {
       scrub: 1
     }
   })
-  const bigBrandCards = gsap.utils.toArray('.big-brands > div > div > div > div') as HTMLElement[]
+  const bigBrandCards = gsap.utils.toArray('.big-brands > div > div > div') as HTMLElement[]
   for (let card of bigBrandCards) {
     bigBrandsAnimation.fromTo(card, {
       yPercent: 100,
