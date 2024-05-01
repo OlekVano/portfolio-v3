@@ -70,7 +70,7 @@ function closeContactModal() {
 function initializeOnetimeLogic() {
   gsap.set('#contact-form-container', {
     yPercent: -100,
-    display: 'auto'
+    display: 'block',
   })
 
   const paymentTypeSelection = document.getElementById('payment-type') as HTMLSelectElement
