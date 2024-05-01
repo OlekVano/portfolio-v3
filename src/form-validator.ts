@@ -15,7 +15,7 @@ export class FormValidator {
   validateOnSubmit() {
     let self = this;
 
-    const fakeSubmitButton = this.form.querySelector('input[type="button"]') as HTMLInputElement;
+    const fakeSubmitButton = this.form.querySelector('#fake-submit') as HTMLInputElement;
 
     fakeSubmitButton.addEventListener('click', () => {
       let valid = true;
@@ -28,7 +28,7 @@ export class FormValidator {
         }
       });
       if (valid) {
-        self.form.submit();
+        (self.form.querySelector('input[type="submit"]') as HTMLInputElement).click()
       }
     });
   }

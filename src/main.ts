@@ -1,3 +1,4 @@
+import 'notie/dist/notie.min.css'
 import './style.sass';
 
 import * as THREE from 'three';
@@ -7,6 +8,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 import SplitType from 'split-type'
 import Lenis from 'lenis'
+import notie from 'notie'
 
 import { LayerModel } from './rubiks-cube/layer-model';
 import { debounce, randomNotation, sleep, toRotation } from './rubiks-cube/utils';
@@ -17,19 +19,59 @@ import { FormValidator } from './form-validator';
 const MIN_CANVAS_HEIGHT = 768
 
 initializeOnetimeLogic()
-initializeSmoothScroll();
+const lenis: Lenis = initializeSmoothScroll();
+setupCTAs()
 initializeThree();
 prepareAnimatedText();
 manageGSAPAnimations();
 
-function initializeOnetimeLogic() {
-  const ctas = document.querySelectorAll('.cta') as NodeListOf<HTMLButtonElement>
+function setupCTAs() {
+  const ctas = document.querySelectorAll('.cta-open') as NodeListOf<HTMLButtonElement>
   for (let cta of ctas) {
-    cta.addEventListener('click', () => {
-      const contactForm = document.getElementById('contact') as HTMLElement
-      contactForm.scrollIntoView({ behavior: 'smooth' })
-    })
+    cta.addEventListener('click', openContactModal)
   }
+
+  const ctasClose = document.querySelectorAll('.cta-close') as NodeListOf<HTMLButtonElement>
+  for (let ctaClose of ctasClose) {
+    ctaClose.addEventListener('click', closeContactModal)
+  }
+}
+
+function openContactModal() {
+  lenis.stop()
+  gsap.fromTo(
+    '#contact-form-container',
+    {
+      yPercent: -100,
+    },
+    {
+      yPercent: 0,
+      duration: 0.5,
+      ease: 'power4.out'
+    }
+  )
+}
+
+function closeContactModal() {
+  lenis.start()
+  gsap.fromTo(
+    '#contact-form-container',
+    {
+      yPercent: 0,
+    },
+    {
+      yPercent: -100,
+      duration: 0.5,
+      ease: 'power4.out'
+    }
+  )
+}
+
+function initializeOnetimeLogic() {
+  gsap.set('#contact-form-container', {
+    yPercent: -100,
+    display: 'auto'
+  })
 
   const paymentTypeSelection = document.getElementById('payment-type') as HTMLSelectElement
 
@@ -60,6 +102,30 @@ function initializeOnetimeLogic() {
   }
 
   const form = document.getElementById('contact-form') as HTMLFormElement
+
+  form.addEventListener('submit', (e: Event) => {
+    e.preventDefault()
+
+    const form = e.target as HTMLFormElement
+    const formData = new FormData(form)
+
+    closeContactModal()
+
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      // @ts-ignore
+      body: new URLSearchParams(formData).toString(),
+    })
+
+    notie.alert({
+      text: 'Your message has been sent!',
+      position: 'bottom'
+    })
+
+    form.reset()
+  })
+
   const fields = ['name', 'email', 'payment-type', 'budget', 'message']
   const validator = new FormValidator(form, fields)
   validator.initialize()
@@ -89,6 +155,8 @@ function initializeSmoothScroll() {
   })
 
   gsap.ticker.lagSmoothing(0)
+
+  return lenis
 }
 
 function manageGSAPAnimations() {

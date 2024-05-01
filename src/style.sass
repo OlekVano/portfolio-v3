@@ -37,6 +37,21 @@ html
 h1, h2, h3, h4, h5, h6
   color: $color-primary
 
+html.lenis, html.lenis body
+  height: auto
+
+.lenis.lenis-smooth
+  scroll-behavior: auto !important
+
+.lenis.lenis-smooth [data-lenis-prevent]
+  overscroll-behavior: contain
+
+.lenis.lenis-stopped
+  overflow: hidden
+
+.lenis.lenis-scrolling iframe
+  pointer-events: none
+
 header
   position: fixed
   width: 100%
@@ -50,22 +65,29 @@ header
   color: $color-primary
   font-weight: 600
 
-.btn-primary
-  background-color: $color-primary
-  color: white
-  padding: $spacing-xs $spacing-sm
-  border: 1px solid transparent
+.btn
   border-radius: $spacing-xs
   font-size: $font-size-sm
   text-transform: uppercase
   font-family: "Roboto Mono", monospace
-  transition: background-color 0.3s
+  transition: background-color 0.35s, border 0.35s
   cursor: pointer
+  border: 1px solid transparent
+  padding: $spacing-xs $spacing-sm
+
 
   &:hover
     border: 1px solid $color-primary
     background-color: transparent
     color: $color-primary
+
+.btn-primary
+  background-color: $color-primary
+  color: white
+
+.btn-secondary
+  background-color: $color-tertiary
+  color: $color-primary
 
 section
   > div
@@ -258,36 +280,88 @@ section
   > div
     > div:first-child
       font-size: $font-size-lg
-    
-    > form
+
+    > div:last-child
       margin-top: $spacing-lg
+      display: flex
+      gap: $spacing-md
 
-      > div
-        margin-top: $spacing-md
-        display: flex
+      @media screen and (max-width: 384px)
         flex-direction: column
+        gap: $spacing-sm
 
-        > input:not([type="button"]), > textarea, > select
-          border: none
-          outline: none
-          border-bottom: 1px solid $color-tertiary
-          background: transparent
-          padding: 0
-          padding-bottom: $spacing-2xs
-          margin: 0
+    .btn-secondary
+      display: flex
+      gap: $spacing-xs
+      align-items: center
+      justify-content: center
+
+#contact-form-container
+  position: fixed
+  width: 100%
+  height: 100%
+  top: 0
+  background-color: white
+  overflow-y: auto
+  border: 1px solid $color-tertiary
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.1)
+  display: none
+
+  > form
+    width: 100%
+    max-width: 1024px
+    margin: 0 auto
+    padding: $spacing-md
+
+    @media screen and (max-width: 640px)
+      padding: $spacing-sm
+
+    > div
+      margin-top: $spacing-md
+      display: flex
+      flex-direction: column
+
+      &:last-child
+        margin-top: $spacing-lg
+        display: flex
+        flex-direction: row
+        gap: $spacing-md
+
+        @media screen and (max-width: 384px)
+          flex-direction: column
+          gap: $spacing-sm
+
+        > input
+          flex: 1
+
+      > input:not([type="button"]), > textarea, > select
+        border: none
+        outline: none
+        border-bottom: 1px solid $color-tertiary
+        background: transparent
+        padding: 0
+        padding-bottom: $spacing-2xs
+        margin: 0
+        color: $color-primary
+
+        &::placeholder
           color: $color-primary
 
-          &::placeholder
-            color: $color-primary
+      > textarea
+        max-width: 100%
+        min-width: 100%
 
-        > textarea
-          max-width: 100%
-          min-width: 100%
+      > .error-message:not(:empty)
+        margin-top: $spacing-xs
+        color: $color-error
+        font-size: $font-size-sm
 
-        > .error-message:not(:empty)
-          margin-top: $spacing-xs
-          color: $color-error
-          font-size: $font-size-sm
+.notie-container
+  background-color: $color-primary
+  color: white
+  font-size: $font-size-sm
+  text-transform: uppercase
+  font-family: "Roboto Mono", monospace
 
 .visually-hidden
   display: none
