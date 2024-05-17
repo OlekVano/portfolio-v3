@@ -1,4 +1,3 @@
-import 'notie/dist/notie.min.css'
 import './style.sass';
 
 import * as THREE from 'three';
@@ -8,128 +7,18 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 import SplitType from 'split-type'
 import Lenis from 'lenis'
-import notie from 'notie'
 
 import { LayerModel } from './rubiks-cube/layer-model';
 import { debounce, randomNotation, sleep, toRotation } from './rubiks-cube/utils';
 import { RubikCubeModel } from './rubiks-cube/rubik-cube-model';
 import { Axis } from './rubiks-cube/types';
-import { FormValidator } from './form-validator';
 
 const MIN_CANVAS_HEIGHT = 768
 
-initializeOnetimeLogic()
-const lenis: Lenis = initializeSmoothScroll();
-setupCTAs()
+initializeSmoothScroll();
 initializeThree();
 prepareAnimatedText();
 manageGSAPAnimations();
-
-function setupCTAs() {
-  const ctas = document.querySelectorAll('.cta-open') as NodeListOf<HTMLButtonElement>
-  for (let cta of ctas) {
-    cta.addEventListener('click', openContactModal)
-  }
-
-  const ctasClose = document.querySelectorAll('.cta-close') as NodeListOf<HTMLButtonElement>
-  for (let ctaClose of ctasClose) {
-    ctaClose.addEventListener('click', closeContactModal)
-  }
-}
-
-function openContactModal() {
-  lenis.stop()
-  gsap.fromTo(
-    '#contact-form-container',
-    {
-      yPercent: -100,
-    },
-    {
-      yPercent: 0,
-      duration: 0.5,
-      ease: 'power4.out'
-    }
-  )
-}
-
-function closeContactModal() {
-  lenis.start()
-  gsap.fromTo(
-    '#contact-form-container',
-    {
-      yPercent: 0,
-    },
-    {
-      yPercent: -100,
-      duration: 0.5,
-      ease: 'power4.out'
-    }
-  )
-}
-
-function initializeOnetimeLogic() {
-  gsap.set('#contact-form-container', {
-    yPercent: -100,
-    display: 'block',
-  })
-
-  const paymentTypeSelection = document.getElementById('payment-type') as HTMLSelectElement
-
-  paymentTypeSelection.onchange = function () {
-    const paymentType = (this as HTMLSelectElement).value
-    const budgetElem = document.getElementById('budget') as HTMLSelectElement
-
-    const fixedBudgets = document.getElementsByClassName('payment-type-option-fixed')
-    const hourlyBudgets = document.getElementsByClassName('payment-type-option-hourly')
-
-    if (paymentType === 'fixed') {
-      for (let budget of fixedBudgets) {
-        budget.classList.remove('visually-hidden')
-      }
-      for (let budget of hourlyBudgets) {
-        budget.classList.add('visually-hidden')
-      }
-      budgetElem.value = fixedBudgets[0].getAttribute('value') as string
-    } else {
-      for (let budget of fixedBudgets) {
-        budget.classList.add('visually-hidden')
-      }
-      for (let budget of hourlyBudgets) {
-        budget.classList.remove('visually-hidden')
-      }
-      budgetElem.value = hourlyBudgets[0].getAttribute('value') as string
-    }
-  }
-
-  const form = document.getElementById('contact-form') as HTMLFormElement
-
-  form.addEventListener('submit', (e: Event) => {
-    e.preventDefault()
-
-    const form = e.target as HTMLFormElement
-    const formData = new FormData(form)
-
-    closeContactModal()
-
-    fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      // @ts-ignore
-      body: new URLSearchParams(formData).toString(),
-    })
-
-    notie.alert({
-      text: 'Your message has been sent!',
-      position: 'bottom'
-    })
-
-    form.reset()
-  })
-
-  const fields = ['name', 'email', 'payment-type', 'budget', 'message']
-  const validator = new FormValidator(form, fields)
-  validator.initialize()
-}
 
 function prepareAnimatedText() {
   SplitType.create('.hero > div > h1', {

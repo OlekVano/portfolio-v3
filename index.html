@@ -5,7 +5,6 @@
   <link rel="icon" type="image/svg+xml" href="/photo.jpeg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Oleksiy Vano | Full-Stack Developer</title>
-  <link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
@@ -30,7 +29,9 @@
   <header>
     <p class="logo">Oleksiy Vano</p>
     <div>
-      <button class="btn btn-primary cta-open">Get in touch</button>
+      <a class="btn btn-primary" href="https://calendly.com/oleksiy-vano/discovery" target="_blank">
+        Get in touch
+      </a>
     </div>
   </header>
   <main>
@@ -180,7 +181,9 @@
           <p class="scroll-animated-text">I'm am currently on full capacity and am not available for new projects, but you can still follow me on LinkedIn or reach out for a possibility of future collaboration</p>
         </div>
         <div>
-          <button class="btn btn-primary cta-open">Message me</button>
+          <a class="btn btn-primary" href="https://calendly.com/oleksiy-vano/discovery" target="_blank">
+            Talk with me
+          </a>
           <a class="btn btn-secondary" href="https://www.linkedin.com/in/oleksiy-vano/" target="_blank" rel="noopener noreferrer">
             <img src="/img/linkedin.svg" />
             <div>LinkedIn</div>
@@ -192,52 +195,6 @@
   <footer>
     <p>© 2024 Oleksiy Vano</p>
   </footer>
-  <div id="contact-form-container" data-lenis-prevent>
-    <form id="contact-form" name="contact" netlify>
-      <div>
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name" placeholder="John" />
-        <span class="error-message"></span>
-      </div>
-      <div>
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" placeholder="example@company.com"/>
-        <span class="error-message"></span>
-      </div>
-      <div>
-        <label for="payment-type">Payment type</label>
-        <select id="payment-type" name="payment-type">
-          <option value="fixed">Fixed</option>
-          <option value="hourly">Hourly</option>
-        </select>
-        <span class="error-message"></span>
-      </div>
-      <div>
-        <label for="budget">Budget</label>
-        <select id="budget" name="budget">
-          <option class="payment-type-option-fixed" value="2000-5000">€2000-5000</option>
-          <option class="payment-type-option-fixed" value="5000-10000">€5000-10000</option>
-          <option class="payment-type-option-fixed" value="10000-25000">€10000-25000</option>
-          <option class="payment-type-option-fixed" value="25000+">€25000+</option>
-          <option class="payment-type-option-hourly visually-hidden" value="45-60">€45-60 per hour</option>
-          <option class="payment-type-option-hourly visually-hidden" value="60-80">€60-80 per hour</option>
-          <option class="payment-type-option-hourly visually-hidden" value="80-100">€80-100 per hour</option>
-          <option class="payment-type-option-hourly visually-hidden" value="100+">€100+ per hour</option>
-        </select>
-        <span class="error-message"></span>
-      </div>
-      <div>
-        <label for="message">Message</label>
-        <textarea id="message" name="message" rows="1" placeholder="Our project is about..."></textarea>
-        <span class="error-message"></span>
-      </div>
-      <div>
-        <input type="button" id="fake-submit" class="btn btn-primary" value="Send" />
-        <input type="button" class="btn btn-secondary cta-close" value="Cancel" />
-        <input type="submit" class="visually-hidden" />
-      </div>
-    </form>
-  </div>
   <script type="module" src="/src/main.ts"></script>
 </body>
 </html>
